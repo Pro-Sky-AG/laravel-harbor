@@ -8,6 +8,7 @@ use App\Actions\MergeEnvironmentVariables;
 use App\Actions\TextToArray;
 use App\Services\Forge\ForgeService;
 use App\Traits\Outputifier;
+use Illuminate\Support\Facades\Http;
 
 class UpdateForgeEnvironmentVariables
 {
@@ -37,11 +38,35 @@ class UpdateForgeEnvironmentVariables
         $source = $service->forge->siteEnvironmentFile($service->server->id, $service->site->id);
         $mergedEnvs = MergeEnvironmentVariables::run($source, $newKeys);
 
-        $service->forge->updateSiteEnvironmentFile(
-            $service->server->id,
-            $service->site->id,
-            $mergedEnvs
-        );
+        // TODO: This is a temporary solution. Direct HTTP call to Forge API should be replaced
+        // with proper SDK support once available. Remove this conditional when SDK supports
+        // organization-based endpoints.
+        $useNewApi = env('USE_NEW_FORGE_API', false) === true || env('USE_NEW_FORGE_API') === 'true';
+        $organization = env('FORGE_ORGANIZATION');
+
+        if ($useNewApi && $organization) {
+            $url = sprintf(
+                'https://forge.laravel.com/api/orgs/%s/servers/%s/sites/%s/environment',
+                $organization,
+                $service->server->id,
+                $service->site->id
+            );
+
+            Http::withHeaders([
+                'Authorization' => sprintf('Bearer %s', $service->setting->token),
+                'Content-Type' => 'application/json',
+            ])->put($url, [
+                'environment' => $mergedEnvs,
+                'cache' => true,
+                'queues' => true,
+            ]);
+        } else {
+            $service->forge->updateSiteEnvironmentFile(
+                $service->server->id,
+                $service->site->id,
+                $mergedEnvs
+            );
+        }
 
         return true;
     }
