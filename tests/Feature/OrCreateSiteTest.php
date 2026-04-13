@@ -2,8 +2,8 @@
 
 use App\Services\Forge\ForgeService;
 use App\Services\Forge\ForgeSetting;
+use App\Services\Forge\Api\Exceptions\ForgeValidationException as ValidationException;
 use App\Services\Forge\Pipeline\OrCreateNewSite;
-use Laravel\Forge\Exceptions\ValidationException;
 
 test('it fails on incorrect payload', function ($site, $expectedErrors) {
     $service = mock(ForgeService::class);
@@ -14,7 +14,11 @@ test('it fails on incorrect payload', function ($site, $expectedErrors) {
 
     $service->shouldReceive('createSite')
         ->once()
-        ->andThrows(ValidationException::class, $expectedErrors);
+        ->andThrow(new ValidationException(
+            message: implode(PHP_EOL, collect($expectedErrors)->flatten()->all()),
+            statusCode: 422,
+            errors: collect($expectedErrors)->flatten()->all(),
+        ));
 
     expect(
         app(OrCreateNewSite::class)($service, fn ($service) => $service)

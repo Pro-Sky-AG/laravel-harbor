@@ -19,6 +19,7 @@ Please update your references and links accordingly.
 ## Table of Contents
 
 - [Introduction](#introduction)
+- [Forge Server Requirements (Harbor)](#forge-server-requirements-harbor)
 - [Contributing](#contributing)
 - [License](#license)
 - [Roadmap](#roadmap)
@@ -30,6 +31,18 @@ In today's fast-paced software development world, the ability to quickly and eff
 
 ## Documentation, and Usage Instructions
 See the [documentation](https://laravel-harbor.com/docs/introduction/) for detailed installation and usage instructions.
+
+## Forge Server Requirements (Harbor)
+
+Use this checklist when provisioning new Harbor preview servers, especially when running multiple Redis instances on the same machine.
+
+- Configure `FORGE_ORGANIZATION` with your Forge organization slug (new Forge API is org-scoped).
+- Create a Forge API token with scopes required by Harbor operations (sites, deploys, environment, commands, daemons/background processes, scheduled jobs, databases, domains/certificates, and webhooks).
+- Set SWAP to at least `8 GB` for preview workloads with queues and Redis.
+- Keep Horizon process counts conservative to avoid memory pressure under burst traffic.
+- Plan Redis memory per instance (`maxmemory`) and make sure total Redis limits plus PHP workers fit within available RAM.
+- Prefer one Redis instance per workload role when needed (for example: cache, queue, sessions) and monitor each separately.
+- Enable basic Redis and system monitoring (memory usage, evictions, OOM events, and queue lag) before going live.
 
 ## Contributing
 
