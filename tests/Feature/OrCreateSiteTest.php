@@ -7,7 +7,20 @@ use App\Services\Forge\Pipeline\OrCreateNewSite;
 
 test('it fails on incorrect payload', function ($site, $expectedErrors) {
     $service = mock(ForgeService::class);
-    $service->setting = new ForgeSetting;
+    $setting = Mockery::mock(ForgeSetting::class);
+    $setting->server = '111111';
+    $setting->projectType = 'php';
+    $setting->phpVersion = 'php82';
+    $setting->gitProvider = 'github';
+    $setting->repository = 'acme/example';
+    $setting->repositoryUrl = null;
+    $setting->branch = 'main';
+    $setting->quickDeploy = false;
+    $setting->githubCreateDeployKey = false;
+    $setting->nginxTemplate = null;
+    $setting->siteIsolationRequired = false;
+    $service->setting = $setting;
+
     $service->shouldReceive('getFormattedDomainName')
         ->once()
         ->andReturn($site['name']);
