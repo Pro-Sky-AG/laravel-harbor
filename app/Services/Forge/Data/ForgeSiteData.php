@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Services\Forge\Data;
 
 use App\Services\Forge\Api\Support\JsonApiData;
-use Illuminate\Support\Str;
 
 class ForgeSiteData
 {
@@ -32,7 +31,11 @@ class ForgeSiteData
         $directory = null;
 
         if (is_string($webDirectory) && is_string($rootDirectory)) {
-            $directory = Str::replaceFirst($rootDirectory, '', $webDirectory) ?: '/';
+            $normalizedRoot = rtrim($rootDirectory, '/');
+
+            if (str_starts_with($webDirectory, $normalizedRoot)) {
+                $directory = substr($webDirectory, strlen($normalizedRoot)) ?: '/';
+            }
         }
 
         return new self(

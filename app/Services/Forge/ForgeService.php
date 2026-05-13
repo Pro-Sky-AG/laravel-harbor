@@ -86,7 +86,7 @@ class ForgeService
 
     public function getFormattedAliases(): array
     {
-        if ($this->setting->aliases === null) {
+        if ($this->setting->aliases === null || $this->setting->aliases === '') {
             return [];
         }
 
@@ -174,6 +174,10 @@ class ForgeService
 
     public function siteDirectory(): string
     {
+        if ($this->site === null) {
+            return '';
+        }
+
         if ($this->site->rootDirectory) {
             return $this->site->rootDirectory;
         }
@@ -363,7 +367,7 @@ class ForgeService
             }
 
             sleep(5);
-            $latestSite = $this->client->getSite($site->id);
+            $latestSite = $this->client->getSite($this->setting->server, $site->id);
         }
 
         throw new RuntimeException('Timed out while waiting for site provisioning to complete.');

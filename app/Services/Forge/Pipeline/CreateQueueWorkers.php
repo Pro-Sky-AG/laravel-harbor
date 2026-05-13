@@ -44,16 +44,16 @@ class CreateQueueWorkers
 
     protected function buildQueueWorkerCommand(array $worker): string
     {
-        $binary = $worker['php_version'] ?? 'php';
+        $binary = escapeshellarg($worker['php_version'] ?? 'php');
         $verb = ! empty($worker['daemon']) ? 'queue:work' : 'queue:listen';
-        $command = [$binary, 'artisan', $verb, $worker['connection']];
+        $command = [$binary, 'artisan', $verb, escapeshellarg($worker['connection'])];
 
         foreach (['queue', 'timeout', 'sleep', 'delay', 'tries', 'environment', 'memory'] as $option) {
             if (! isset($worker[$option])) {
                 continue;
             }
 
-            $command[] = sprintf('--%s=%s', $option, $worker[$option]);
+            $command[] = sprintf('--%s=%s', $option, escapeshellarg((string) $worker[$option]));
         }
 
         if (! empty($worker['force'])) {

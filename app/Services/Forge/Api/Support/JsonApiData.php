@@ -16,9 +16,15 @@ class JsonApiData
         return $resource['attributes'] ?? [];
     }
 
-    public static function id(array $resource): string|int|null
+    public static function id(array $resource): string|int
     {
-        return $resource['id'] ?? null;
+        if (! isset($resource['id'])) {
+            throw new \InvalidArgumentException(
+                'Missing required "id" field in API resource: ' . json_encode($resource)
+            );
+        }
+
+        return $resource['id'];
     }
 
     public static function relationshipIds(array $resource, string $relationship): array
