@@ -272,6 +272,7 @@ class ForgeSetting
             'subdomain_pattern' => ['nullable', 'string'],
             'command' => ['nullable', 'string'],
             'nginx_template' => ['nullable', 'int'],
+            'install_composer_dependencies' => ['boolean'],
             'quick_deploy' => ['boolean'],
             'site_isolation_required' => ['boolean'],
             'site_isolation_username' => ['nullable', 'string'],

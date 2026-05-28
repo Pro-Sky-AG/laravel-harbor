@@ -31,6 +31,9 @@ return [
     // Creates a deploy key on github
     'github_create_deploy_key' => env('FORGE_GITHUB_DEPLOY_KEY', false),
 
+    // Flag indicating if Forge should install composer dependencies on site creation (default: true).
+    'install_composer_dependencies' => env('FORGE_INSTALL_COMPOSER_DEPENDENCIES', true),
+
     // Pattern for subdomains.
     'subdomain_pattern' => env('FORGE_SUBDOMAIN_PATTERN'),
 
