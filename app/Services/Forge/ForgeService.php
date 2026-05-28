@@ -116,7 +116,7 @@ class ForgeService
             $dbName = $this->getFormattedBranchName();
         }
 
-        return Str::replace('-', '_', $dbName);
+        return Str::limit(Str::replace('-', '_', $dbName), 32, '');
     }
 
     public function getDeployKeyTitle(): string
