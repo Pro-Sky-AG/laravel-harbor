@@ -23,6 +23,7 @@ class RemoveDatabaseUser
 
     public function __invoke(ForgeService $service, Closure $next)
     {
+        $this->information('Starting RemoveDatabaseUser pipeline.');
         $expectedName = $service->getFormattedDatabaseName();
         $users = $service->databaseUsers();
 
