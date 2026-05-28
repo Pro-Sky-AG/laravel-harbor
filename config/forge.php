@@ -79,8 +79,8 @@ return [
     // Override default database and database username, if needed. Defaults to the site name.
     'db_name' => env('FORGE_DB_NAME', null),
 
-    // Flag to enable SSL certification (default: false).
-    'ssl_required' => env('FORGE_SSL_REQUIRED', false),
+    // Flag to enable SSL certification (default: true).
+    'ssl_required' => env('FORGE_SSL_REQUIRED', true),
 
     // Flag to pause until SSL setup completes during provisioning (default: true).
     'wait_on_ssl' => env('FORGE_WAIT_ON_SSL', true),
