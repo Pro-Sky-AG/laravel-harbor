@@ -17,8 +17,8 @@ class ForgeJsonRequest extends Request
     public function __construct(
         Method $method,
         protected string $endpoint,
-        protected array $body = [],
-        protected array $query = [],
+        protected array $bodyData = [],
+        protected array $queryParams = [],
     ) {
         $this->method = $method;
     }
@@ -30,11 +30,11 @@ class ForgeJsonRequest extends Request
 
     protected function defaultBody(): array
     {
-        return $this->body;
+        return $this->bodyData;
     }
 
     protected function defaultQuery(): array
     {
-        return $this->query;
+        return $this->queryParams;
     }
 }
