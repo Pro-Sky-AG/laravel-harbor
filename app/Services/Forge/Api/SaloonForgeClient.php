@@ -226,8 +226,9 @@ class SaloonForgeClient implements ForgeClient
 
     public function enableLetsEncrypt(string|int $serverId, string|int $siteId, string|int $domainRecordId): void
     {
-        $this->sendRequest(Method::POST, $this->endpoint("/servers/{$serverId}/sites/{$siteId}/domains/{$domainRecordId}/certificate/actions"), [
-            'action' => 'enable',
+        $this->sendRequest(Method::POST, $this->endpoint("/servers/{$serverId}/sites/{$siteId}/domains/{$domainRecordId}/certificates"), [
+            'type' => 'letsencrypt',
+            'enable' => true,
         ]);
     }
 
