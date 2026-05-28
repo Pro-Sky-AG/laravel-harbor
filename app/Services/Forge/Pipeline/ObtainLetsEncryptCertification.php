@@ -33,7 +33,7 @@ class ObtainLetsEncryptCertification
         try {
             $service->obtainLetsEncryptCertificate([$service->site->name]);
         } catch (Throwable $e) {
-            $this->failCommand("---> Something's wrong with SSL certification. Check your Forge site Log for more info.");
+            $this->failCommand("---> Something's wrong with SSL certification. {{$e->getMessage()}}");
         }
 
         return $next($service);
