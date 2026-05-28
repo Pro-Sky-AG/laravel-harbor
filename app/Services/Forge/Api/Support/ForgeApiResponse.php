@@ -28,8 +28,24 @@ class ForgeApiResponse
     protected static function throwFrom(Response $response): never
     {
         $payload = $response->json();
-        $errors = collect($payload['errors'] ?? [])
-            ->map(fn (array $error): string => $error['detail'] ?? $error['title'] ?? 'Unknown API error')
+        $rawErrors = $payload['errors'] ?? [];
+
+        // Forge may return JSON:API errors ([{detail, title}]) or Laravel validation
+        // errors ({field: [msg, ...]}).  Normalise both into a flat string list.
+        $errors = collect($rawErrors)
+            ->flatMap(function (mixed $error): array {
+                if (is_array($error) && (isset($error['detail']) || isset($error['title']))) {
+                    // JSON:API error object
+                    return [$error['detail'] ?? $error['title']];
+                }
+
+                if (is_array($error)) {
+                    // Laravel validation bag entry: array of message strings
+                    return array_values($error);
+                }
+
+                return [(string) $error];
+            })
             ->values()
             ->all();
 
