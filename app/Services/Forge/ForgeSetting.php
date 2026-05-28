@@ -13,8 +13,8 @@ declare(strict_types=1);
 
 namespace App\Services\Forge;
 
-use App\Services\Forge\Exceptions\ValidationException;
 use App\Rules\BranchNameRegex;
+use App\Services\Forge\Exceptions\ValidationException;
 use App\Traits\Outputifier;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Fluent;
@@ -185,6 +185,11 @@ class ForgeSetting
     public bool $gitCommentEnabled;
 
     /**
+     * The domain mode for site creation ('custom' or 'on-forge').
+     */
+    public string $domainMode;
+
+    /**
      * Gets used to set the site subdomain manually.
      */
     public ?string $subdomainName;
@@ -288,6 +293,7 @@ class ForgeSetting
             'git_comment_enabled' => ['required', 'boolean'],
             'git_issue_number' => ['exclude_if:git_comment_enabled,false', 'required', 'string'],
             'git_token' => ['exclude_if:git_comment_enabled,false', 'required', 'string'],
+            'domain_mode' => ['required', 'string', 'in:custom,on-forge'],
             'subdomain_name' => ['nullable', 'string', 'regex:/^[a-zA-Z0-9-_]+$/'],
             'environment_url' => ['nullable', 'url'],
             'webhook_url' => ['nullable', 'url'],

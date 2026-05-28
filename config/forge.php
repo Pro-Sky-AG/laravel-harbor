@@ -121,6 +121,9 @@ return [
     // The webhook URL to be added to the Forge site.
     'webhook_url' => env('FORGE_WEBHOOK_URL'),
 
+    // The domain mode for site creation ('custom' or 'on-forge').
+    'domain_mode' => env('FORGE_DOMAIN_MODE', 'custom'),
+
     // The queue workers to be added to Forge site
     'queue_workers' => env('FORGE_QUEUE_WORKERS'),
 
