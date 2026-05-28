@@ -4,6 +4,9 @@ return [
     // Forge API authentication token.
     'token' => env('FORGE_TOKEN'),
 
+    // Forge organization slug.
+    'organization' => env('FORGE_ORGANIZATION', 'default'),
+
     // Forge Identifier for the server.
     'server' => env('FORGE_SERVER'),
 
@@ -27,6 +30,9 @@ return [
 
     // Creates a deploy key on github
     'github_create_deploy_key' => env('FORGE_GITHUB_DEPLOY_KEY', false),
+
+    // Flag indicating if Forge should install composer dependencies on site creation (default: true).
+    'install_composer_dependencies' => env('FORGE_INSTALL_COMPOSER_DEPENDENCIES', true),
 
     // Pattern for subdomains.
     'subdomain_pattern' => env('FORGE_SUBDOMAIN_PATTERN'),
@@ -61,8 +67,8 @@ return [
     // Flag to auto-source environment variables in deployment (default: false).
     'auto_source_required' => env('FORGE_AUTO_SOURCE_REQUIRED', false),
 
-    // Flag indicating if a database should be created (default: false).
-    'db_creation_required' => env('FORGE_DB_CREATION_REQUIRED', false),
+    // Flag indicating if a database should be created (default: true).
+    'db_creation_required' => env('FORGE_DB_CREATION_REQUIRED', true),
 
     // Flag indicating if Harbor should remove the existing old database (default: false).
     'force_delete_old_database' => env('FORCE_DELETE_OLD_DATABASE', false),
@@ -114,6 +120,9 @@ return [
 
     // The webhook URL to be added to the Forge site.
     'webhook_url' => env('FORGE_WEBHOOK_URL'),
+
+    // The domain mode for site creation ('custom' or 'on-forge').
+    'domain_mode' => env('FORGE_DOMAIN_MODE', 'custom'),
 
     // The queue workers to be added to Forge site
     'queue_workers' => env('FORGE_QUEUE_WORKERS'),

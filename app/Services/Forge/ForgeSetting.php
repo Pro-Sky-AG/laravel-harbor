@@ -14,11 +14,11 @@ declare(strict_types=1);
 namespace App\Services\Forge;
 
 use App\Rules\BranchNameRegex;
+use App\Services\Forge\Exceptions\ValidationException;
 use App\Traits\Outputifier;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Fluent;
 use Illuminate\Support\Str;
-use Laravel\Forge\Exceptions\ValidationException;
 
 class ForgeSetting
 {
@@ -28,6 +28,11 @@ class ForgeSetting
      * Forge API authentication token.
      */
     public string $token;
+
+    /**
+     * Forge organization slug.
+     */
+    public string $organization;
 
     /**
      * Forge Identifier for the server.
@@ -180,6 +185,11 @@ class ForgeSetting
     public bool $gitCommentEnabled;
 
     /**
+     * The domain mode for site creation ('custom' or 'on-forge').
+     */
+    public string $domainMode;
+
+    /**
      * Gets used to set the site subdomain manually.
      */
     public ?string $subdomainName;
@@ -215,6 +225,11 @@ class ForgeSetting
     public bool $githubCreateDeployKey;
 
     /**
+     * Flag indicating if Forge should install composer dependencies on site creation.
+     */
+    public bool $installComposerDependencies;
+
+    /**
      * The webhook URL to be added to the Forge site
      */
     public ?string $webhookUrl;
@@ -238,7 +253,9 @@ class ForgeSetting
     {
         $validator = $this->validate($configurations);
 
-        throw_if($validator->fails(), ValidationException::class, $validator->errors()->all());
+        if ($validator->fails()) {
+            throw new ValidationException($validator->errors()->all());
+        }
 
         // If validation passes, set properties
         foreach ($configurations as $key => $value) {
@@ -252,6 +269,7 @@ class ForgeSetting
     {
         return Validator::make($configurations, [
             'token' => ['required'],
+            'organization' => ['required', 'string'],
             'server' => ['required'],
             'domain' => ['required'],
             'aliases' => ['nullable', 'string'],
@@ -264,6 +282,7 @@ class ForgeSetting
             'subdomain_pattern' => ['nullable', 'string'],
             'command' => ['nullable', 'string'],
             'nginx_template' => ['nullable', 'int'],
+            'install_composer_dependencies' => ['boolean'],
             'quick_deploy' => ['boolean'],
             'site_isolation_required' => ['boolean'],
             'site_isolation_username' => ['nullable', 'string'],
@@ -279,6 +298,7 @@ class ForgeSetting
             'git_comment_enabled' => ['required', 'boolean'],
             'git_issue_number' => ['exclude_if:git_comment_enabled,false', 'required', 'string'],
             'git_token' => ['exclude_if:git_comment_enabled,false', 'required', 'string'],
+            'domain_mode' => ['required', 'string', 'in:custom,on-forge'],
             'subdomain_name' => ['nullable', 'string', 'regex:/^[a-zA-Z0-9-_]+$/'],
             'environment_url' => ['nullable', 'url'],
             'webhook_url' => ['nullable', 'url'],
