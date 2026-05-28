@@ -51,6 +51,8 @@ class OrCreateNewSite
             'branch' => $service->setting->branch,
             'push_to_deploy' => $service->setting->quickDeploy,
             'generate_deploy_key' => $service->setting->githubCreateDeployKey,
+            'www_redirect_type' => 'none',
+            'allow_wildcard_subdomains' => false,
         ];
 
         if ($nginxTemplate = $service->setting->nginxTemplate) {
