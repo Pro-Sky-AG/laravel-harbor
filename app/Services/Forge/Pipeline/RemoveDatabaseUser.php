@@ -23,15 +23,8 @@ class RemoveDatabaseUser
 
     public function __invoke(ForgeService $service, Closure $next)
     {
-        $this->information('Starting RemoveDatabaseUser pipeline.');
         $expectedName = $service->getFormattedDatabaseName();
         $users = $service->databaseUsers();
-
-        $this->information(sprintf('Looking for database user "%s" among %d user(s): %s',
-            $expectedName,
-            count($users),
-            implode(', ', array_map(fn ($u) => $u->name, $users))
-        ));
 
         foreach ($users as $databaseUser) {
             if ($databaseUser->name === $expectedName) {
