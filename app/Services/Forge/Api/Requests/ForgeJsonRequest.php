@@ -4,11 +4,12 @@ declare(strict_types=1);
 
 namespace App\Services\Forge\Api\Requests;
 
+use Saloon\Contracts\Body\HasBody;
 use Saloon\Enums\Method;
 use Saloon\Http\Request;
 use Saloon\Traits\Body\HasJsonBody;
 
-class ForgeJsonRequest extends Request
+class ForgeJsonRequest extends Request implements HasBody
 {
     use HasJsonBody;
 
