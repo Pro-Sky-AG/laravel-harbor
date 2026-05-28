@@ -35,12 +35,17 @@ class ForgeSiteData
             $directory = Str::replaceFirst($rootDirectory, '', $webDirectory) ?: '/';
         }
 
+        $repository = $attributes['repository'] ?? null;
+        if (is_array($repository)) {
+            $repository = $repository['url'] ?? null;
+        }
+
         return new self(
             id: JsonApiData::id($resource),
             name: (string) ($attributes['name'] ?? ''),
             status: $attributes['status'] ?? null,
             username: (string) ($attributes['user'] ?? ''),
-            repository: $attributes['repository'] ?? null,
+            repository: $repository,
             webDirectory: $webDirectory,
             rootDirectory: $rootDirectory,
             directory: $directory,
