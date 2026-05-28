@@ -51,6 +51,7 @@ class OrCreateNewSite
             'branch' => $service->setting->branch,
             'push_to_deploy' => $service->setting->quickDeploy,
             'generate_deploy_key' => $service->setting->githubCreateDeployKey,
+            'install_composer_dependencies' => $service->setting->installComposerDependencies,
             'www_redirect_type' => 'none',
             'allow_wildcard_subdomains' => false,
         ];

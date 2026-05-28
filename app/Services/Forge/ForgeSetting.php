@@ -225,6 +225,11 @@ class ForgeSetting
     public bool $githubCreateDeployKey;
 
     /**
+     * Flag indicating if Forge should install composer dependencies on site creation.
+     */
+    public bool $installComposerDependencies;
+
+    /**
      * The webhook URL to be added to the Forge site
      */
     public ?string $webhookUrl;
