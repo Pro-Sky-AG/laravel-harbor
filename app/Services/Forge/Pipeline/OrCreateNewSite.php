@@ -43,7 +43,7 @@ class OrCreateNewSite
         $data = [
             'type' => $service->setting->projectType,
             'domain_mode' => $service->setting->domainMode,
-            'name' => $service->getFormattedDomainName(),
+            'name' => $service->getFormattedBranchName(),
             'php_version' => $service->setting->phpVersion,
             'web_directory' => '/public',
             'source_control_provider' => $service->setting->gitProvider,
