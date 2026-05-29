@@ -230,9 +230,8 @@ class SaloonForgeClient implements ForgeClient
             'enable' => true,
             'type' => 'letsencrypt',
             'letsencrypt' => [
-                'verification_method' => 'dns-01',
+                'verification_method' => 'http-01',
                 'key_type' => 'ecdsa',
-                'preferred_chain' => 'ISRG Root X1',
             ],
         ]);
     }
