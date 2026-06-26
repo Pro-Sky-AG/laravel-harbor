@@ -20,7 +20,7 @@ class FormattedBranchName
 {
     use AsAction;
 
-    protected const STRING_LIMIT = 64;
+    protected const STRING_LIMIT = 62;
 
     protected const SLUGIFY_DICTIONARY = ['+' => '-', '_' => '-', '@' => '-'];
 
@@ -36,7 +36,7 @@ class FormattedBranchName
         return Str::limit(
             $slugged,
             self::STRING_LIMIT,
-            ''
+            'a'
         );
     }
 
