@@ -74,7 +74,7 @@ return [
     'force_delete_old_database' => env('FORCE_DELETE_OLD_DATABASE', false),
 
     // Flag to enable Quick Deploy (default: true).
-    'quick_deploy' => env('FORGE_QUICK_DEPLOY', false),
+    'quick_deploy' => env('FORGE_QUICK_DEPLOY', true),
 
     // Override default database and database username, if needed. Defaults to the site name.
     'db_name' => env('FORGE_DB_NAME', null),
