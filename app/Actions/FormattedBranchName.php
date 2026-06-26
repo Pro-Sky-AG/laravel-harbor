@@ -35,7 +35,8 @@ class FormattedBranchName
 
         return Str::limit(
             $slugged,
-            self::STRING_LIMIT
+            self::STRING_LIMIT,
+            ''
         );
     }
 
