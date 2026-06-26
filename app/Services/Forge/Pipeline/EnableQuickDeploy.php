@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace App\Services\Forge\Pipeline;
 
+use App\Services\Forge\Api\Exceptions\ForgeApiException;
 use App\Services\Forge\ForgeService;
 use App\Traits\Outputifier;
 use Closure;
@@ -29,7 +30,15 @@ class EnableQuickDeploy
 
         $this->information('Enabling the quick deploy.');
 
-        $service->enableQuickDeploy();
+        try {
+            $service->enableQuickDeploy();
+        } catch (ForgeApiException $e) {
+            if (str_contains($e->getMessage(), 'identical hook already exists')) {
+                $this->information('Quick deploy hook already exists, skipping.');
+            } else {
+                throw $e;
+            }
+        }
 
         return $next($service);
     }
